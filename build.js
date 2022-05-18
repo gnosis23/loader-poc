@@ -2,8 +2,8 @@ const path = require('path')
 
 const getEntry = () => {
   return `
-    import { loader as loader0 } from '${('./Greet.jsx')}'
-    import { loader as loader1 } from '${('./Hello.jsx')}'
+    import { loader as loader0 } from '${path.resolve('src/Greet.jsx')}'
+    import { loader as loader1 } from '${path.resolve('src/Hello.jsx')}'
     Promise.all([
       loader0(),
       loader1(),
@@ -18,7 +18,7 @@ const reactShim = path.resolve(__dirname, "react.ts");
 require('esbuild').build({
   stdin: {
     contents: getEntry(),
-    resolveDir: 'src'
+    // resolveDir: path.resolve('src')
   },
   platform: 'browser',
   // inject: [reactShim],
@@ -37,7 +37,7 @@ require('esbuild').build({
         build.onResolve({ filter: /.*/ }, (args) => {
           if (args.path.startsWith('.') || args.path.startsWith('/')) {
             console.log('args.path', args.path);
-            return { path: path.resolve(args.resolveDir, args.path) };
+            return { path: path.resolve(args.resolveDir, args.path) + (args.path.startsWith('.') ? '.js' : '') };
           }
           return {
             path:

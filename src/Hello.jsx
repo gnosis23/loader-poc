@@ -1,4 +1,4 @@
-import { fetcher } from "./utils.js"
+import { fetcher } from "./utils"
 
 export const loader = () => {
   return fetcher('https://jsonplaceholder.typicode.com/todos/2')
